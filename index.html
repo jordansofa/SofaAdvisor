@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sofa Advisor &mdash; Jordan</title>
+  <title>Sofa Advisor — Jordan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,198 +15,74 @@
 
   <div class="app-wrap">
 
-```
-<!-- HEADER -->
-<header>
-  <div class="header-left">
-    <h1 class="header-title">Sofa Advisor</h1>
-    <span class="header-badge">Jordan</span>
-  </div>
-  <nav class="header-actions">
-    <button class="btn btn-ghost nav-btn" id="navCatalog"  onclick="showPage('catalog')">&#128715; Catalog</button>
-    <button class="btn btn-ghost nav-btn" id="navAdvisor" onclick="showPage('advisor')">&#129302; AI Advisor</button>
-    <button class="btn btn-ghost nav-btn" id="navSettings" onclick="showPage('settings')">&#9881; Settings</button>
-  </nav>
-</header>
+    <!-- HEADER -->
+    <header>
+      <div class="header-left">
+        <h1 class="header-title">Sofa Advisor</h1>
+        <span class="header-badge">Jordan</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-ghost" onclick="newConversation()">🆕 New Chat</button>
+        <button class="btn btn-ghost" onclick="showHistory()">📖 History</button>
+        <button class="btn btn-primary" onclick="clearAllFilters()">🔄 Clear Filters</button>
+      </div>
+    </header>
 
-<!-- ═══════════════════════════════════════════════════════
-     PAGE: CATALOG
-════════════════════════════════════════════════════════ -->
-<div id="pageCatalog" class="page">
-  <div class="two-col">
+    <!-- MAIN GRID -->
+    <div class="grid-main">
 
-    <!-- LEFT: search + grid -->
-    <div class="card">
-
-      <!-- Featured -->
-      <div id="featuredHero" class="featured-hero"></div>
-
-      <div class="divider"></div>
-
-      <!-- Search -->
-      <div class="field-group">
-        <div class="block-label">Search</div>
-        <div class="meta-block" style="padding:0;">
-          <input id="catalogSearch" type="text" placeholder="Search sofas..." class="block-input mono" style="padding:13px 16px;" oninput="applyFilters()">
-        </div>
+      <!-- FILTERS -->
+      <div class="card filters-card">
+        <div class="section-title">🔎 Refinement Filters</div>
+        <div id="filterGroups"></div>
+        <div class="filter-status" id="matchCount">Showing all 88+ products • Ask me anything</div>
       </div>
 
-      <!-- Tag filters -->
-      <div class="field-group">
-        <div class="block-label">Style &amp; Type</div>
-        <div id="styleFilters" class="chip-row"></div>
-      </div>
-
-      <!-- Count -->
-      <div class="results-row">
-        <span class="block-label" id="resultsLabel" style="margin:0;"></span>
-        <button class="btn-clear-filters" id="clearFiltersBtn" onclick="clearFilters()" style="display:none;">Clear filters</button>
-      </div>
-
-      <!-- Grid -->
-      <div id="catalogGrid" class="catalog-grid"></div>
-
-    </div>
-
-    <!-- RIGHT: detail panel -->
-    <div class="preview-col">
-      <div class="preview-card">
-        <div class="preview-header">
-          <span class="preview-label">Sofa Details</span>
-          <span class="live-dot"></span>
-        </div>
-        <div class="preview-body" id="detailPanel">
-          <div class="empty-state">
-            <div class="empty-icon">&#128715;</div>
-            <div class="empty-text">Select a sofa from the catalog<br>to see full details &amp; selling points.</div>
+      <!-- CHAT -->
+      <div class="chat-col">
+        <div class="preview-card chat-card">
+          <div class="preview-header">
+            <span class="preview-label">Sofa Concierge AI</span>
+            <span class="live-dot"></span>
+          </div>
+          <div class="chat-body">
+            <div id="messages" class="messages"></div>
+          </div>
+          <div class="chat-input-area">
+            <input id="chatInput" type="text" class="chat-input mono" placeholder="Recommend a corner sofa with removable covers..." onkeypress="if(event.key==='Enter')sendMessage()">
+            <button class="btn btn-success" onclick="sendMessage()">Send</button>
           </div>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
-</div>
 
-<!-- ═══════════════════════════════════════════════════════
-     PAGE: AI ADVISOR
-════════════════════════════════════════════════════════ -->
-<div id="pageAdvisor" class="page hidden">
-  <div class="two-col">
-
-    <!-- LEFT: chat -->
-    <div class="card">
-      <div class="section-title">&#129302; AI Sales Advisor</div>
-      <p class="page-desc">Describe your customer below — room size, lifestyle, budget, taste — and the AI will recommend the best sofa from the catalog with selling tips.</p>
-
-      <div id="chatMessages" class="chat-window"></div>
-
-      <div class="field-group" style="margin-top:14px;margin-bottom:0;">
-        <div class="block-label">Describe the Customer</div>
-        <textarea id="chatInput" rows="3" placeholder="e.g. Family of 4, large living room, two kids and a dog, want something durable but stylish, budget around £2,000..."></textarea>
-        <div class="chat-actions">
-          <button onclick="sendChat()" class="btn btn-success" id="sendBtn">&#10148; Send</button>
-          <button onclick="clearChat()" class="btn btn-ghost">Clear chat</button>
-          <span class="chat-hint">Ctrl+Enter to send</span>
-        </div>
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="productModal" class="modal-overlay" onclick="if(event.target===this)closeProductModal()">
+    <div class="modal-inner product-modal-inner">
+      <div class="modal-header">
+        <h2 id="modalProductName" class="modal-title"></h2>
+        <button class="modal-close" onclick="closeProductModal()">×</button>
       </div>
+      <div id="modalProductBody" class="modal-body"></div>
     </div>
-
-    <!-- RIGHT: quick-ask panel -->
-    <div class="preview-col">
-      <div class="preview-card">
-        <div class="preview-header">
-          <span class="preview-label">Quick Ask</span>
-          <span class="live-dot"></span>
-        </div>
-        <div class="preview-body">
-          <p class="quick-ask-intro">Tap a sofa to instantly ask the AI about it:</p>
-          <div id="quickAskList" class="quick-ask-list"></div>
-        </div>
-      </div>
-    </div>
-
   </div>
-</div>
 
-<!-- ═══════════════════════════════════════════════════════
-     PAGE: SETTINGS
-════════════════════════════════════════════════════════ -->
-<div id="pageSettings" class="page hidden">
-  <div class="settings-wrap">
-
-    <div class="card">
-      <div class="section-title">&#9881; Settings</div>
-      <p class="page-desc">Configure your AI provider to enable the AI Advisor. Your key is stored in your browser only — never sent anywhere except directly to the provider.</p>
-
-      <div class="divider"></div>
-
-      <div class="settings-section-label">AI Provider</div>
-
-      <div class="meta-row" style="margin-bottom:20px;">
-        <div class="meta-block provider-option" id="optGroq" onclick="selectProvider('groq')">
-          <div class="provider-name">Groq</div>
-          <div class="provider-model">Llama 3.1 70B</div>
-          <div class="provider-note">Fastest &amp; free tier available</div>
-          <div class="provider-check" id="checkGroq">&#10003;</div>
-        </div>
-        <div class="meta-block provider-option" id="optOpenAI" onclick="selectProvider('openai')">
-          <div class="provider-name">OpenAI</div>
-          <div class="provider-model">GPT-4o Mini</div>
-          <div class="provider-note">Reliable, paid per token</div>
-          <div class="provider-check hidden" id="checkOpenAI">&#10003;</div>
-        </div>
+  <!-- HISTORY MODAL -->
+  <div id="historyModal" class="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <h2 class="modal-title">Conversation History</h2>
+        <button class="modal-close" onclick="closeHistory()">×</button>
       </div>
-
-      <div class="field-group">
-        <div class="block-label">API Key</div>
-        <div class="meta-block" style="padding:0;display:flex;align-items:center;">
-          <input id="apiKeyInput" type="password" placeholder="Paste your key here..." class="block-input mono" style="padding:14px 16px;flex:1;">
-          <button onclick="toggleKeyVisibility()" class="btn-eye" id="eyeBtn" title="Show/hide key">&#128065;</button>
-        </div>
-        <div class="field-hint" id="keyHint"></div>
+      <div id="historyList" class="modal-list"></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost full-width" onclick="closeHistory()">Close</button>
       </div>
-
-      <div class="settings-actions">
-        <button class="btn btn-primary" onclick="saveApiKey()" id="saveKeyBtn">Save Key</button>
-        <button class="btn btn-ghost" onclick="clearApiKey()" id="clearKeyBtn">Remove Key</button>
-      </div>
-
-      <div id="keyStatus" class="key-status hidden"></div>
-
-      <div class="divider"></div>
-
-      <div class="settings-section-label">Get an API Key</div>
-      <div class="key-links">
-        <a href="https://console.groq.com" target="_blank" rel="noopener" class="key-link">
-          <span class="key-link-name">Groq Console</span>
-          <span class="key-link-url">console.groq.com &#8599;</span>
-        </a>
-        <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener" class="key-link">
-          <span class="key-link-name">OpenAI Platform</span>
-          <span class="key-link-url">platform.openai.com &#8599;</span>
-        </a>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="settings-section-label">Featured Sofa</div>
-      <div class="field-group" style="margin-bottom:0;">
-        <div class="block-label">Change which sofa is highlighted at the top of the catalog</div>
-        <div class="meta-block" style="padding:0;">
-          <select id="featuredSelect" onchange="changeFeatured()" class="block-input mono" style="padding:13px 16px;background:var(--surface2);color:var(--text);width:100%;border:none;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;">
-          </select>
-        </div>
-      </div>
-
     </div>
-
   </div>
-</div>
-```
-
-  </div><!-- end app-wrap -->
 
   <script src="app.js"></script>
-
 </body>
 </html>
