@@ -1,0 +1,74 @@
+/* ─── RESET + ORIGINAL VARIABLES + BASE (exact same as your handover app) ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f0f10;--surface:#191920;--surface2:#21212b;--surface3:#2b2b38;--border:rgba(255,255,255,0.07);--border-hi:rgba(255,255,255,0.13);--gold:#f5b944;--gold-dim:rgba(245,185,68,0.14);--gold-glow:rgba(245,185,68,0.25);--green:#48c78e;--green-dim:rgba(72,199,142,0.13);--blue:#6c8ef5;--red:#f87171;--text:#e8e8f0;--text-muted:#7a7a94;--text-faint:#3d3d52;--r:12px;--r-sm:8px}
+html,body{min-height:100%}
+body{font-family:'Sora',system-ui,sans-serif;background-color:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.5}
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 50% at 10% 0%,rgba(245,185,68,0.06) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 95% 100%,rgba(72,199,142,0.05) 0%,transparent 50%)}
+.app-wrap{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:28px 18px 70px}
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:32px}
+.header-left{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.header-title{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(24px,5vw,36px);color:var(--text);letter-spacing:-0.4px}
+.header-badge{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid rgba(245,185,68,0.28);padding:4px 11px;border-radius:100px}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:var(--r-sm);font-family:'Sora',system-ui,sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:background .15s,transform .15s,box-shadow .15s,color .15s;white-space:nowrap}
+.btn-ghost{background:var(--surface2);color:var(--text-muted);border-color:var(--border-hi)}
+.btn-ghost:hover{background:var(--surface3);color:var(--text)}
+.btn-primary{background:var(--gold);color:#0f0f10;font-weight:600}
+.btn-primary:hover{background:#f9c95a;transform:translateY(-1px);box-shadow:0 4px 18px var(--gold-glow)}
+.btn-success{background:var(--green);color:#0f0f10;font-weight:600}
+.btn-success:hover{background:#5dd8a2;transform:translateY(-1px);box-shadow:0 4px 18px rgba(72,199,142,0.35)}
+.full-width{width:100%;justify-content:center}
+.grid-main{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
+@media(min-width:900px){.grid-main{grid-template-columns:380px 1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px}
+.section-title{font-family:'DM Serif Display',Georgia,serif;font-size:18px;color:var(--gold);margin-bottom:16px}
+.divider{height:1px;background:var(--border);margin:24px 0}
+.block-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px}
+
+/* ─── FILTERS ─── */
+.filters-card .section-title{margin-bottom:20px}
+.filter-group{margin-bottom:26px}
+.filter-group:last-child{margin-bottom:0}
+.filter-group h3{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.filter-option{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:14px}
+.filter-option input{accent-color:var(--gold);width:18px;height:18px}
+.filter-status{font-size:12px;color:var(--text-muted);margin-top:12px;text-align:center}
+
+/* ─── CHAT ─── */
+.chat-col{position:sticky;top:20px}
+.chat-card{height:calc(100vh - 180px);display:flex;flex-direction:column}
+.chat-body{flex:1;padding:22px;overflow-y:auto;background:var(--surface);border-bottom:1px solid var(--border)}
+.messages{display:flex;flex-direction:column;gap:18px}
+.message{display:flex;gap:12px;max-width:85%;align-items:flex-start}
+.message.bot{align-self:flex-start}
+.message.user{align-self:flex-end;flex-direction:row-reverse}
+.avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;background:var(--surface3);border:2px solid var(--border)}
+.message.bot .avatar{background:var(--gold);color:#0f0f10}
+.message.user .avatar{background:var(--green);color:#0f0f10}
+.bubble{background:var(--surface2);padding:14px 19px;border-radius:18px;line-height:1.55;font-size:14.2px;max-width:100%;border-top-left-radius:4px}
+.message.user .bubble{background:var(--gold);color:#0f0f10;border-top-right-radius:4px;border-top-left-radius:18px}
+.mini-product{background:var(--surface3);border:1px solid var(--border);border-radius:12px;padding:14px;margin:10px 0;cursor:pointer;transition:transform .15s}
+.mini-product:hover{transform:translateY(-2px);border-color:var(--gold)}
+.mini-product strong{color:var(--gold)}
+.chat-input-area{display:flex;gap:10px;padding:18px 22px;background:var(--surface2);border-top:1px solid var(--border)}
+.chat-input{flex:1;background:transparent;border:1px solid var(--border-hi);border-radius:var(--r-sm);color:var(--text);font-family:'DM Mono',monospace;font-size:14.5px;padding:13px 16px;outline:none}
+.chat-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,185,68,0.1)}
+
+/* ─── MODALS (extended from original) ─── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-inner{background:var(--surface);border:1px solid var(--border-hi);border-radius:22px;width:100%;max-width:560px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden}
+.product-modal-inner{max-width:620px}
+.modal-body{padding:24px;line-height:1.65;font-size:14px;overflow-y:auto}
+.modal-body ul{margin:12px 0 12px 20px}
+.modal-body li{margin:6px 0}
+
+/* ─── HISTORY (same as original) ─── */
+#historyList .history-item{display:flex;gap:14px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);cursor:pointer}
+#historyList .history-item:hover{border-color:var(--gold)}
+.hist-preview{font-size:12.5px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ─── SCROLLBARS (same) ─── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:4px}
