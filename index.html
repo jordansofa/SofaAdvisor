@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sofa Advisor — Jordan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <div class="app-wrap">
+
+    <header>
+      <div class="header-left">
+        <h1 class="header-title">Sofa Advisor</h1>
+        <span class="header-badge">Jordan</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-ghost" onclick="showApiModal()">🔑 API Key</button>
+        <button class="btn btn-ghost" onclick="switchTab(0)">🛋️ Catalog</button>
+        <button class="btn btn-ghost" onclick="switchTab(1)">🤖 AI Advisor</button>
+      </div>
+    </header>
+
+    <div class="grid-main">
+
+      <!-- CATALOG -->
+      <div id="tab0" class="card form-card">
+
+        <!-- Featured -->
+        <div id="featuredHero" class="featured-hero"></div>
+
+        <div class="divider"></div>
+
+        <!-- Search -->
+        <div class="field-group">
+          <div class="block-label">Search Sofas</div>
+          <input id="catalogSearch" type="text" placeholder="Search by name or description..." onkeyup="applyFilters()" class="block-input mono">
+        </div>
+
+        <!-- Style Filters -->
+        <div class="field-group">
+          <div class="block-label">Filter by Style</div>
+          <div id="styleFilters" class="chip-row"></div>
+        </div>
+
+        <!-- Results -->
+        <div class="block-label" id="resultsLabel">All Sofas (22)</div>
+        <div id="catalogGrid" class="catalog-grid"></div>
+
+      </div>
+
+      <!-- AI ADVISOR -->
+      <div id="tab1" class="card form-card hidden">
+        <div class="section-title">🤖 AI Sofa Advisor</div>
+        <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;">Describe your customer and I’ll recommend the perfect sofa + fabric from the catalog.</p>
+        <div id="chatMessages" class="chat-window"></div>
+        <div class="field-group" style="margin-top:16px;">
+          <div class="block-label">Your Message</div>
+          <textarea id="chatInput" rows="3" placeholder="e.g. Family of 4, large living room, kids + dog, modern style, budget £2000..."></textarea>
+          <button onclick="sendChat()" class="btn btn-success w-full mt-4">Send to AI</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- API KEY MODAL -->
+  <div id="apiModal" class="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <h2 class="modal-title">API Key</h2>
+        <button class="modal-close" onclick="closeApiModal()">×</button>
+      </div>
+      <div class="p-6">
+        <select id="providerSelect" class="block-input mono w-full mb-4">
+          <option value="groq">Groq (Llama 3.1 70B – fastest free)</option>
+          <option value="openai">OpenAI</option>
+        </select>
+        <input id="apiKeyInput" type="password" placeholder="gsk-..." class="block-input mono w-full">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary full-width" onclick="saveApiKey()">Save Key</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
