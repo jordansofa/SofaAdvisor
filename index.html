@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sofa Advisor — Jordan</title>
+  <title>Sofa.com AI Advisor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -15,66 +16,141 @@
 
   <div class="app-wrap">
 
-    <header>
-      <div class="header-left">
-        <h1 class="header-title">Sofa Advisor</h1>
-        <span class="header-badge">Jordan</span>
+```
+<header>
+  <div class="header-left">
+    <h1 class="header-title">Sofa Advisor</h1>
+    <span class="header-badge">Jordan</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost" onclick="showApiModal()">&#128273; API Key</button>
+    <button class="btn btn-ghost" id="navCatalog" onclick="switchTab(0)">&#128715; Catalog</button>
+    <button class="btn btn-ghost" id="navAI" onclick="switchTab(1)">&#129302; AI Advisor</button>
+  </div>
+</header>
+
+<div class="grid-main">
+
+  <!-- CATALOG TAB -->
+  <div id="tab0" class="card form-card">
+
+    <!-- Featured -->
+    <div id="featuredHero" class="featured-hero"></div>
+
+    <div class="divider"></div>
+
+    <!-- Search -->
+    <div class="field-group">
+      <div class="block-label">Search</div>
+      <div class="meta-block" style="padding:0;">
+        <input id="catalogSearch" type="text" placeholder="Search by name or description..." class="block-input mono" style="padding:14px 16px;" oninput="applyFilters()">
       </div>
-      <div class="header-actions">
-        <button class="btn btn-ghost" onclick="showApiModal()">🔑 API Key</button>
-        <button class="btn btn-ghost" onclick="switchTab(0)">🛋️ Catalog</button>
-        <button class="btn btn-ghost" onclick="switchTab(1)">🤖 AI Advisor</button>
+    </div>
+
+    <!-- Style Filters -->
+    <div class="field-group">
+      <div class="block-label">Filter by Style</div>
+      <div id="styleFilters" class="chip-row"></div>
+    </div>
+
+    <!-- Results -->
+    <div class="block-label" id="resultsLabel">All Sofas</div>
+    <div id="catalogGrid" class="catalog-grid"></div>
+
+  </div>
+
+  <!-- AI ADVISOR TAB -->
+  <div id="tab1" class="card form-card hidden">
+
+    <div class="section-title">&#129302; AI Sofa Advisor</div>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;line-height:1.6;">
+      Describe your customer — room size, lifestyle, budget, style preferences — and the AI will recommend the perfect sofa from the catalog.
+    </p>
+
+    <div id="chatMessages" class="chat-window"></div>
+
+    <div class="field-group" style="margin-top:16px;margin-bottom:0;">
+      <div class="block-label">Your Message</div>
+      <textarea id="chatInput" rows="3" placeholder="e.g. Family of 4, large living room, kids and a dog, want something durable and stylish..."></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button onclick="sendChat()" class="btn btn-success" style="flex:1;justify-content:center;">Send to AI</button>
+        <button onclick="clearChat()" class="btn btn-ghost">Clear</button>
       </div>
-    </header>
+    </div>
 
-    <div class="grid-main">
+  </div>
 
-      <!-- CATALOG -->
-      <div id="tab0" class="card form-card">
-        <!-- Featured New Arrival -->
-        <div id="featuredHero" class="mb-8 rounded-3xl overflow-hidden border border-amber-400/30"></div>
-
-        <!-- Search & Filters -->
-        <input id="catalogSearch" type="text" placeholder="Search sofas..." onkeyup="applyFilters()" class="block-input mono w-full mb-4">
-
-        <div id="styleFilters" class="flex flex-wrap gap-2 mb-6"></div>
-
-        <!-- Results Grid -->
-        <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+  <!-- PREVIEW / INFO PANEL -->
+  <div class="preview-col" id="previewCol">
+    <div class="preview-card">
+      <div class="preview-header">
+        <span class="preview-label">Selected Sofa</span>
+        <span class="live-dot"></span>
       </div>
-
-      <!-- AI ADVISOR -->
-      <div id="tab1" class="card form-card hidden">
-        <div id="chatMessages" class="chat-window"></div>
-        <div class="mt-6">
-          <textarea id="chatInput" rows="2" placeholder="Describe the customer (room size, style, kids/pets, budget...)" class="block-input mono w-full"></textarea>
-          <button onclick="sendChat()" class="btn btn-success w-full mt-3">Send to AI</button>
+      <div class="preview-body" id="sofaDetail">
+        <div class="empty-state">
+          <div class="empty-icon">&#128715;</div>
+          <div class="empty-text">Click any sofa in the catalog<br>to see its details here.</div>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- API MODAL -->
+</div>
+```
+
+  </div>
+
+  <!-- API KEY MODAL -->
+
   <div id="apiModal" class="modal-overlay" onclick="handleOverlayClick(event)">
     <div class="modal-inner">
       <div class="modal-header">
-        <h2 class="modal-title">API Key</h2>
-        <button class="modal-close" onclick="closeApiModal()">×</button>
+        <h2 class="modal-title">AI Configuration</h2>
+        <button class="modal-close" onclick="closeApiModal()">&#215;</button>
       </div>
-      <div class="p-6">
-        <select id="providerSelect" class="block-input mono w-full mb-4">
-          <option value="groq">Groq (Llama 3.1 70B – fastest free)</option>
-          <option value="openai">OpenAI</option>
-        </select>
-        <input id="apiKeyInput" type="password" placeholder="gsk-..." class="block-input mono w-full">
+      <div style="padding:20px 24px;display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <div class="block-label">Provider</div>
+          <div class="meta-block" style="padding:0;">
+            <select id="providerSelect" class="block-input mono" style="padding:12px 14px;background:var(--surface2);border:none;width:100%;color:var(--text);">
+              <option value="groq">Groq — Llama 3.1 70B (fastest, free)</option>
+              <option value="openai">OpenAI — GPT-4o Mini</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="block-label">API Key</div>
+          <div class="meta-block" style="padding:0;">
+            <input id="apiKeyInput" type="password" placeholder="gsk_... or sk-..." class="block-input mono" style="padding:12px 14px;">
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--text-faint);line-height:1.6;">
+          Keys are stored locally in your browser only. Get a free Groq key at console.groq.com
+        </p>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary full-width" onclick="saveApiKey()">Save Key</button>
+        <button class="btn btn-primary full-width" onclick="saveApiKey()">&#10003; Save Key</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOFA DETAIL MODAL (mobile) -->
+
+  <div id="sofaModal" class="modal-overlay" onclick="handleSofaOverlay(event)">
+    <div class="modal-inner" style="max-width:480px;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="sofaModalTitle">Sofa Details</h2>
+        <button class="modal-close" onclick="closeSofaModal()">&#215;</button>
+      </div>
+      <div id="sofaModalBody" style="padding:20px 24px;flex:1;overflow-y:auto;"></div>
+      <div class="modal-footer">
+        <button class="btn btn-success full-width" id="sofaModalAskBtn">Ask AI about this sofa</button>
       </div>
     </div>
   </div>
 
   <script src="app.js"></script>
+
 </body>
 </html>

@@ -4,17 +4,31 @@ let provider = localStorage.getItem('sofa_provider') || 'groq';
 let apiKey = localStorage.getItem('sofa_ai_key') || '';
 
 const products = [
-  {id:1, name:"Slim Marco Sofa", tags:["Contemporary","Comfort"], desc:"Slim arms, deep seat – modern classic", img:"https://picsum.photos/id/1015/600/400"},
-  {id:2, name:"Cohen Modular Sofa", tags:["Contemporary","Modular","Family"], desc:"Build your perfect layout", img:"https://picsum.photos/id/133/600/400"},
-  {id:3, name:"Bluebell Sofa", tags:["Traditional","Chic"], desc:"Elegant pleated arms", img:"https://picsum.photos/id/201/600/400"},
-  {id:4, name:"Teddy Sofa", tags:["Family","Comfort"], desc:"Super deep seat, family favourite", img:"https://picsum.photos/id/251/600/400"},
-  {id:5, name:"Holly Chaise Sofa", tags:["Family","Comfort"], desc:"Chaise for lounging", img:"https://picsum.photos/id/316/600/400"},
-  {id:6, name:"Izzy Corner Sofa", tags:["Family","Modular"], desc:"Spacious corner arrangement", img:"https://picsum.photos/id/366/600/400"},
-  {id:7, name:"Stellar Armchair", tags:["Contemporary","Chic"], desc:"Statement modern chair", img:"https://picsum.photos/id/431/600/400"},
-  {id:8, name:"Luna Corner Sofa", tags:["Family","Comfort"], desc:"Large L-shape", img:"https://picsum.photos/id/870/600/400"}
+  {id:1, name:"Slim Marco Sofa", tags:["Contemporary","Comfort"], desc:"Slim arms, deep seat – modern classic"},
+  {id:2, name:"Cohen Modular Sofa", tags:["Contemporary","Modular","Family"], desc:"Fully modular – build your perfect layout"},
+  {id:3, name:"Bluebell Sofa", tags:["Traditional","Chic"], desc:"Elegant pleated arms and deep comfort"},
+  {id:4, name:"Teddy Sofa", tags:["Family","Comfort"], desc:"Super deep seat, family favourite"},
+  {id:5, name:"Holly Chaise Sofa", tags:["Family","Comfort"], desc:"Chaise for lounging with storage"},
+  {id:6, name:"Izzy Corner Sofa", tags:["Family","Modular"], desc:"Spacious corner arrangement"},
+  {id:7, name:"Stellar Armchair", tags:["Contemporary","Chic"], desc:"Statement modern chair"},
+  {id:8, name:"Luna Corner Sofa", tags:["Family","Comfort"], desc:"Large L-shape with deep seats"},
+  {id:9, name:"Marco Armchair", tags:["Contemporary","Comfort"], desc:"Matching slim armchair"},
+  {id:10, name:"Chester Sofa", tags:["Traditional","Chic"], desc:"Timeless rolled arms"},
+  {id:11, name:"Raffi Coffee Table", tags:["Chic"], desc:"Marble top accessory"},
+  {id:12, name:"Oscar Velvet Chair", tags:["Luxury","Chic"], desc:"Luxury velvet accent chair"},
+  {id:13, name:"Baylee 3-Seater", tags:["Contemporary","Comfort"], desc:"Low back, relaxed modern look"},
+  {id:14, name:"Classic Chesterfield", tags:["Traditional","Luxury"], desc:"Iconic deep buttoned sofa"},
+  {id:15, name:"Jasper Modular Corner", tags:["Modular","Family"], desc:"Versatile modular corner sofa"},
+  {id:16, name:"Florence 2-Seater", tags:["Contemporary","Comfort"], desc:"Compact and cosy"},
+  {id:17, name:"Velvet Lola Armchair", tags:["Chic","Luxury"], desc:"Plush velvet occasional chair"},
+  {id:18, name:"Hugo Recliner Sofa", tags:["Family","Comfort"], desc:"Power recliner with USB"},
+  {id:19, name:"Eden Fabric Sofa", tags:["Contemporary","Comfort"], desc:"Scandi style clean lines"},
+  {id:20, name:"Monty Leather Sofa", tags:["Traditional","Luxury"], desc:"Premium leather with aged look"},
+  {id:21, name:"Nova Corner Sofa", tags:["Family","Modular"], desc:"Modern corner with chaise"},
+  {id:22, name:"Sienna 3-Seater", tags:["Contemporary","Chic"], desc:"Low profile contemporary sofa"}
 ];
 
-// Change this number to feature a different sofa
+// Featured sofa (change id to highlight any sofa)
 const featuredId = 2;
 
 function switchTab(tab) {
@@ -27,7 +41,7 @@ function renderFeatured() {
   const p = products.find(x => x.id === featuredId);
   const hero = document.getElementById('featuredHero');
   hero.innerHTML = `
-    <img src="${p.img}" class="w-full h-64 object-cover">
+    <img src="https://picsum.photos/id/1015/800/400" class="w-full h-64 object-cover">
     <div class="p-6">
       <div class="inline-block bg-amber-400 text-black text-xs font-semibold px-4 py-1 rounded-full mb-3">NEW ARRIVAL</div>
       <div class="text-2xl font-medium">${p.name}</div>
@@ -65,19 +79,16 @@ function renderCatalog(filtered) {
   const grid = document.getElementById('catalogGrid');
   grid.innerHTML = '';
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="text-center text-zinc-500 py-12">No matching sofas.<br>Select styles or search above.</div>';
+    grid.innerHTML = '<div class="text-center text-zinc-500 py-12">No matching sofas found.<br>Try different filters or search term.</div>';
     return;
   }
   filtered.forEach(p => {
     const card = document.createElement('div');
-    card.className = 'bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden hover:border-amber-400 transition-all';
+    card.className = 'bg-zinc-900 border border-zinc-800 rounded-3xl p-6 hover:border-amber-400 transition-all';
     card.innerHTML = `
-      <img src="${p.img}" class="w-full h-48 object-cover">
-      <div class="p-5">
-        <div class="text-amber-400 font-medium">${p.name}</div>
-        <div class="text-sm text-zinc-400 mt-2">${p.desc}</div>
-        <div class="text-xs text-amber-500 mt-4">${p.tags.join(' • ')}</div>
-      </div>
+      <div class="text-amber-400 font-medium text-lg">${p.name}</div>
+      <div class="text-sm text-zinc-400 mt-3">${p.desc}</div>
+      <div class="text-xs text-amber-500 mt-5">${p.tags.join(' • ')}</div>
     `;
     grid.appendChild(card);
   });
@@ -86,83 +97,13 @@ function renderCatalog(filtered) {
 function askAboutFeatured() {
   const p = products.find(x => x.id === featuredId);
   switchTab(1);
-  document.getElementById('chatInput').value = `Tell me about the ${p.name} and who it would be perfect for`;
+  document.getElementById('chatInput').value = `Tell me everything about the ${p.name} – who it suits best, recommended fabrics, pros and cons`;
   sendChat();
 }
 
-// AI chat (Groq Llama 3.1 70B)
+// AI Chat (Groq Llama 3.1 70B)
 async function sendChat() {
   const input = document.getElementById('chatInput');
   const msg = input.value.trim();
   if (!msg) return;
-  if (!apiKey) { showApiModal(); return; }
-
-  addChatMessage('user', msg);
-  input.value = '';
-  const thinkingId = addChatMessage('assistant', 'Thinking...');
-
-  try {
-    const url = provider === 'groq' ? 'https://api.groq.com/openai/v1/chat/completions' : 'https://api.openai.com/v1/chat/completions';
-    const model = provider === 'groq' ? 'llama-3.1-70b-versatile' : 'gpt-4o-mini';
-
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}`},
-      body: JSON.stringify({
-        model: model,
-        messages: [{ role: "system", content: `You are Sofa.com expert. Use this catalog: ${JSON.stringify(products)}` }, ...chatHistory, { role: "user", content: msg }]
-      })
-    });
-    const data = await res.json();
-    const reply = data.choices[0].message.content;
-    document.getElementById(thinkingId).remove();
-    addChatMessage('assistant', reply);
-    chatHistory.push({role:"user", content: msg}, {role:"assistant", content: reply});
-  } catch(e) {
-    document.getElementById(thinkingId).innerHTML = 'Error – check your API key';
-  }
-}
-
-function addChatMessage(sender, text) {
-  const container = document.getElementById('chatMessages');
-  const div = document.createElement('div');
-  div.className = `chat-message ${sender}`;
-  div.innerHTML = text;
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
-}
-
-function showApiModal() {
-  document.getElementById('apiModal').classList.add('open');
-  document.getElementById('providerSelect').value = provider;
-  document.getElementById('apiKeyInput').value = apiKey;
-}
-
-function closeApiModal() {
-  document.getElementById('apiModal').classList.remove('open');
-}
-
-function saveApiKey() {
-  provider = document.getElementById('providerSelect').value;
-  apiKey = document.getElementById('apiKeyInput').value.trim();
-  if (apiKey) {
-    localStorage.setItem('sofa_ai_key', apiKey);
-    localStorage.setItem('sofa_provider', provider);
-    alert('✅ Key saved! Groq Llama 3.1 70B is now active.');
-    closeApiModal();
-  }
-}
-
-function handleOverlayClick(e) {
-  if (e.target.id === 'apiModal') closeApiModal();
-}
-
-window.onload = () => {
-  renderFeatured();
-  renderStyleFilters();
-  applyFilters(); // shows filtered results
-  switchTab(0);
-  setTimeout(() => {
-    addChatMessage('assistant', "Hi Jordan! I'm your Sofa.com AI expert (Llama 3.1 70B on Groq). Describe a customer and I'll recommend the perfect sofa + fabric.");
-  }, 600);
-};
+  if (!apiKey)
