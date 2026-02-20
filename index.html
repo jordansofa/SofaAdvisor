@@ -29,27 +29,23 @@
 
     <div class="grid-main">
 
-      <!-- CATALOG -->
+      <!-- CATALOG TAB -->
       <div id="tab0" class="card form-card">
-        <input id="catalogSearch" type="text" placeholder="Search sofas..." onkeyup="applyFilters()" class="block-input mono w-full mb-4">
-        
-        <div class="flex gap-4 flex-wrap mb-6">
-          <select id="sortSelect" onchange="applyFilters()" class="block-input mono">
-            <option value="name-asc">Name A-Z</option>
-            <option value="name-desc">Name Z-A</option>
-          </select>
-          <label><input type="checkbox" value="Contemporary" onchange="applyFilters()"> Contemporary</label>
-          <label><input type="checkbox" value="Modular" onchange="applyFilters()"> Modular</label>
-          <label><input type="checkbox" value="Family" onchange="applyFilters()"> Family</label>
-          <label><input type="checkbox" value="Traditional" onchange="applyFilters()"> Traditional</label>
-          <label><input type="checkbox" value="Comfort" onchange="applyFilters()"> Comfort</label>
-          <label><input type="checkbox" value="Chic" onchange="applyFilters()"> Chic</label>
+
+        <!-- Featured Hero -->
+        <div id="featuredHero" class="mb-8 rounded-3xl overflow-hidden border border-amber-400/30 bg-zinc-900"></div>
+
+        <!-- Filters -->
+        <div class="mb-6">
+          <input id="catalogSearch" type="text" placeholder="Search sofas..." onkeyup="applyFilters()" class="block-input mono w-full mb-4">
+          <div id="styleFilters" class="flex flex-wrap gap-2"></div>
         </div>
 
+        <!-- Results Grid -->
         <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
       </div>
 
-      <!-- AI ADVISOR -->
+      <!-- AI ADVISOR TAB -->
       <div id="tab1" class="card form-card hidden">
         <div id="chatMessages" class="chat-window"></div>
         <div class="flex gap-3 mt-6">
