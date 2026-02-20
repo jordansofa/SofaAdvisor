@@ -29,28 +29,26 @@
 
     <div class="grid-main">
 
-      <!-- CATALOG TAB -->
+      <!-- CATALOG -->
       <div id="tab0" class="card form-card">
+        <!-- Featured New Arrival -->
+        <div id="featuredHero" class="mb-8 rounded-3xl overflow-hidden border border-amber-400/30"></div>
 
-        <!-- Featured Hero -->
-        <div id="featuredHero" class="mb-8 rounded-3xl overflow-hidden border border-amber-400/30 bg-zinc-900"></div>
+        <!-- Search & Filters -->
+        <input id="catalogSearch" type="text" placeholder="Search sofas..." onkeyup="applyFilters()" class="block-input mono w-full mb-4">
 
-        <!-- Filters -->
-        <div class="mb-6">
-          <input id="catalogSearch" type="text" placeholder="Search sofas..." onkeyup="applyFilters()" class="block-input mono w-full mb-4">
-          <div id="styleFilters" class="flex flex-wrap gap-2"></div>
-        </div>
+        <div id="styleFilters" class="flex flex-wrap gap-2 mb-6"></div>
 
         <!-- Results Grid -->
         <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
       </div>
 
-      <!-- AI ADVISOR TAB -->
+      <!-- AI ADVISOR -->
       <div id="tab1" class="card form-card hidden">
         <div id="chatMessages" class="chat-window"></div>
-        <div class="flex gap-3 mt-6">
-          <input id="chatInput" type="text" placeholder="Describe the customer..." class="block-input mono flex-1">
-          <button onclick="sendChat()" class="btn btn-success">Send</button>
+        <div class="mt-6">
+          <textarea id="chatInput" rows="2" placeholder="Describe the customer (room size, style, kids/pets, budget...)" class="block-input mono w-full"></textarea>
+          <button onclick="sendChat()" class="btn btn-success w-full mt-3">Send to AI</button>
         </div>
       </div>
 
