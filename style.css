@@ -226,7 +226,7 @@ textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,185,6
 .empty-icon { font-size: 36px; margin-bottom: 12px; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 4px; }
-/* Sofa Advisor additions */
+/* Sofa Advisor extras */
 .chat-window {
   height: 520px;
   overflow-y: auto;
@@ -252,17 +252,4 @@ textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,185,6
   margin-right: auto;
   background: var(--surface3);
   border-radius: 18px 18px 18px 4px;
-}
-
-#catalogGrid > div {
-  background: var(--surface2);
-  border: 1px solid var(--border-hi);
-  border-radius: var(--r);
-  padding: 16px;
-  transition: all 0.2s;
-}
-
-#catalogGrid > div:hover {
-  border-color: var(--gold);
-  transform: translateY(-2px);
 }

@@ -15,7 +15,6 @@
 
   <div class="app-wrap">
 
-    <!-- HEADER -->
     <header>
       <div class="header-left">
         <h1 class="header-title">Sofa Advisor</h1>
@@ -28,20 +27,33 @@
       </div>
     </header>
 
-    <!-- MAIN GRID -->
     <div class="grid-main">
 
-      <!-- CATALOG TAB -->
+      <!-- CATALOG -->
       <div id="tab0" class="card form-card">
-        <input id="catalogSearch" type="text" placeholder="Search sofas, fabrics, accessories..." onkeyup="filterCatalog()" class="block-input mono w-full mb-6">
+        <input id="catalogSearch" type="text" placeholder="Search sofas..." onkeyup="applyFilters()" class="block-input mono w-full mb-4">
+        
+        <div class="flex gap-4 flex-wrap mb-6">
+          <select id="sortSelect" onchange="applyFilters()" class="block-input mono">
+            <option value="name-asc">Name A-Z</option>
+            <option value="name-desc">Name Z-A</option>
+          </select>
+          <label><input type="checkbox" value="Contemporary" onchange="applyFilters()"> Contemporary</label>
+          <label><input type="checkbox" value="Modular" onchange="applyFilters()"> Modular</label>
+          <label><input type="checkbox" value="Family" onchange="applyFilters()"> Family</label>
+          <label><input type="checkbox" value="Traditional" onchange="applyFilters()"> Traditional</label>
+          <label><input type="checkbox" value="Comfort" onchange="applyFilters()"> Comfort</label>
+          <label><input type="checkbox" value="Chic" onchange="applyFilters()"> Chic</label>
+        </div>
+
         <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
       </div>
 
-      <!-- AI ADVISOR TAB -->
+      <!-- AI ADVISOR -->
       <div id="tab1" class="card form-card hidden">
         <div id="chatMessages" class="chat-window"></div>
         <div class="flex gap-3 mt-6">
-          <input id="chatInput" type="text" placeholder="Describe the customer (room, kids, pets, style...)" class="block-input mono flex-1">
+          <input id="chatInput" type="text" placeholder="Describe the customer..." class="block-input mono flex-1">
           <button onclick="sendChat()" class="btn btn-success">Send</button>
         </div>
       </div>
@@ -49,7 +61,7 @@
     </div>
   </div>
 
-  <!-- API KEY MODAL (same style as your history modal) -->
+  <!-- API MODAL -->
   <div id="apiModal" class="modal-overlay" onclick="handleOverlayClick(event)">
     <div class="modal-inner">
       <div class="modal-header">
@@ -61,7 +73,7 @@
           <option value="groq">Groq (Llama 3.1 70B – fastest free)</option>
           <option value="openai">OpenAI</option>
         </select>
-        <input id="apiKeyInput" type="password" placeholder="Paste your Groq key here (gsk-...)" class="block-input mono w-full">
+        <input id="apiKeyInput" type="password" placeholder="gsk-..." class="block-input mono w-full">
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary full-width" onclick="saveApiKey()">Save Key</button>
