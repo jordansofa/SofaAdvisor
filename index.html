@@ -31,17 +31,17 @@
     <!-- MAIN GRID -->
     <div class="grid-main">
 
-      <!-- CATALOG -->
+      <!-- CATALOG TAB -->
       <div id="tab0" class="card form-card">
         <input id="catalogSearch" type="text" placeholder="Search sofas, fabrics, accessories..." onkeyup="filterCatalog()" class="block-input mono w-full mb-6">
         <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
       </div>
 
-      <!-- AI ADVISOR -->
+      <!-- AI ADVISOR TAB -->
       <div id="tab1" class="card form-card hidden">
         <div id="chatMessages" class="chat-window"></div>
         <div class="flex gap-3 mt-6">
-          <input id="chatInput" type="text" placeholder="Describe customer (room, kids, pets, style...)" class="block-input mono flex-1">
+          <input id="chatInput" type="text" placeholder="Describe the customer (room, kids, pets, style...)" class="block-input mono flex-1">
           <button onclick="sendChat()" class="btn btn-success">Send</button>
         </div>
       </div>
@@ -49,8 +49,8 @@
     </div>
   </div>
 
-  <!-- API MODAL -->
-  <div id="apiModal" class="modal-overlay">
+  <!-- API KEY MODAL (same style as your history modal) -->
+  <div id="apiModal" class="modal-overlay" onclick="handleOverlayClick(event)">
     <div class="modal-inner">
       <div class="modal-header">
         <h2 class="modal-title">API Key</h2>
@@ -58,10 +58,10 @@
       </div>
       <div class="p-6">
         <select id="providerSelect" class="block-input mono w-full mb-4">
-          <option value="groq">Groq (fastest free)</option>
+          <option value="groq">Groq (Llama 3.1 70B – fastest free)</option>
           <option value="openai">OpenAI</option>
         </select>
-        <input id="apiKeyInput" type="password" placeholder="sk- or gsk-..." class="block-input mono w-full">
+        <input id="apiKeyInput" type="password" placeholder="Paste your Groq key here (gsk-...)" class="block-input mono w-full">
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary full-width" onclick="saveApiKey()">Save Key</button>
