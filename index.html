@@ -40,7 +40,20 @@ header{display:flex;align-items:center;justify-content:space-between;flex-wrap:w
 .btn-success:hover{background:#5dd8a2;transform:translateY(-1px);box-shadow:0 4px 18px rgba(72,199,142,0.35)}
 .full-width{width:100%;justify-content:center}
 
-.chat-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;height:calc(100vh - 140px);min-height:500px;display:flex;flex-direction:column;overflow:hidden}
+/* FEATURED CARDS */
+.featured-strip{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+@media(max-width:600px){.featured-strip{grid-template-columns:1fr}}
+.featured-card{background:var(--surface);border:1px solid var(--border-hi);border-radius:16px;padding:20px 22px;cursor:pointer;transition:transform .15s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden}
+.featured-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 0% 0%,rgba(245,185,68,0.07) 0%,transparent 70%);pointer-events:none}
+.featured-card:hover{transform:translateY(-3px);border-color:rgba(245,185,68,0.4);box-shadow:0 8px 32px rgba(245,185,68,0.1)}
+.featured-tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid rgba(245,185,68,0.25);padding:3px 9px;border-radius:100px;margin-bottom:10px}
+.featured-name{font-family:'DM Serif Display',Georgia,serif;font-size:20px;color:var(--text);margin-bottom:6px;line-height:1.2}
+.featured-price{font-size:13px;color:var(--gold);margin-bottom:8px;opacity:.85}
+.featured-desc{font-size:12.5px;color:var(--text-muted);line-height:1.5}
+.featured-cta{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:12px;font-weight:600;color:var(--gold);opacity:.7;transition:opacity .15s}
+.featured-card:hover .featured-cta{opacity:1}
+
+.chat-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;height:calc(100vh - 320px);min-height:420px;display:flex;flex-direction:column;overflow:hidden}
 .chat-header{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--border);background:var(--surface2)}
 .chat-header-label{font-size:13px;font-weight:600;color:var(--text-muted);letter-spacing:.5px}
 .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
@@ -112,6 +125,25 @@ header{display:flex;align-items:center;justify-content:space-between;flex-wrap:w
     </div>
     <button class="btn btn-ghost" id="connectAiBtn">🤖 Connect AI</button>
   </header>
+
+  <!-- FEATURED NEW ARRIVALS -->
+
+  <div class="featured-strip">
+    <div class="featured-card" onclick="showFeatured('stellar')">
+      <div class="featured-tag">✨ New Arrival</div>
+      <div class="featured-name">Stellar Sofa</div>
+      <div class="featured-price">From £1,490</div>
+      <div class="featured-desc">A bold new silhouette for Spring/Summer 2026 — deep cloud-like cushions, a low-slung profile and a statement presence in any room.</div>
+      <div class="featured-cta">View details →</div>
+    </div>
+    <div class="featured-card" onclick="showFeatured('slimmarco')">
+      <div class="featured-tag">✨ New Arrival</div>
+      <div class="featured-name">Slim Marco Sofa</div>
+      <div class="featured-price">From £1,420</div>
+      <div class="featured-desc">The iconic Marco reimagined with a slimmer, sleeker silhouette. New for Spring/Summer 2026 with 100+ fabrics and custom sizing.</div>
+      <div class="featured-cta">View details →</div>
+    </div>
+  </div>
 
   <div class="chat-card">
     <div class="chat-header">
@@ -254,13 +286,62 @@ function removeTyping() {
 }
 
 /* ─── PRODUCT CARD & MODAL ─── */
+function isModular(p) {
+  return p.category === 'Modular Sofa' || (p.name||'').toLowerCase().includes('modular');
+}
+
 function productCard(p) {
   const idx = catalog.products.indexOf(p);
+  const modNote = isModular(p)
+    ? `<div style="font-size:11px;color:var(--text-faint);margin-top:4px">*Price is per single module</div>`
+    : '';
   return `<div class="mini-product" data-index="${idx}">
     <strong>${escHtml(p.name)}</strong>
     <div class="price">${escHtml(p.starting_price)}</div>
     <small>${escHtml((p.description||'').substring(0,110))}…</small>
+    ${modNote}
   </div>`;
+}
+
+/* ─── FEATURED MODAL ─── */
+const featuredData = {
+  stellar: {
+    name: 'Stellar Armchair',
+    price: 'From £790',
+    url: 'https://www.sofa.com/gb/spring-summer-2026/stellar-armchair/p/AC-STR',
+    description: 'Rest a cup of tea upon the integrated side table, nestled in the armrest and allow Stellar to cocoon you in its organic shape. Generous in size, Stellar makes a stunning, contemporary statement in your home, whilst prioritising comfort in its composition. Not to be ignored, our dedicated design team created the asymmetric Stellar with function in mind, making it a truly one-of-a-kind silhouette joining our collection. Available in 100+ fabrics.',
+    key_features: ['New for Spring/Summer 2026','LHF/ RHF built-in table','100+ fabric options'],
+  },
+  slimmarco: {
+    name: 'Slim Marco Sofa',
+    price: 'From £1,420',
+    url: 'https://www.sofa.com/gb/spring-summer-2026/slim-marco-sofa/p/SO-SMR',
+    description: 'The iconic Marco reimagined with a slimmer, sleeker silhouette. New for Spring/Summer 2026 with 100+ fabrics and custom sizing options.',
+    key_features: ['New for Spring/Summer 2026','Slim contemporary profile','Based on the iconic Marco design','100+ fabric options','Custom sizes available']
+  }
+};
+
+function showFeatured(id) {
+  const p = featuredData[id];
+  if (!p) return;
+  document.getElementById('modalProductName').textContent = p.name;
+  let body = `
+    <p style="font-size:22px;color:var(--gold);font-family:'DM Serif Display',serif;margin:0 0 12px">${escHtml(p.price)}</p>
+    <p>${escHtml(p.description)}</p>
+    <div style="height:1px;background:var(--border);margin:16px 0"></div>`;
+  if (p.key_features?.length) {
+    body += `<p><strong>Key Features</strong></p><ul>`;
+    p.key_features.forEach(f => body += `<li>${escHtml(f)}</li>`);
+    body += `</ul>`;
+  }
+  if (p.note) {
+    body += `<p style="margin-top:14px;font-size:12.5px;color:var(--text-muted);font-style:italic">${escHtml(p.note)}</p>`;
+  }
+  body += `<div style="margin-top:18px"><a href="${escHtml(p.url)}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#0f0f10;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px">View on sofa.com ↗</a></div>`;
+  body += `<div style="height:1px;background:var(--border);margin:16px 0"></div>
+    <p style="font-size:12px;color:var(--text-muted)">✅ Lifetime frame guarantee &nbsp;•&nbsp; 🚚 White-glove delivery (~£149) &nbsp;•&nbsp; 🎨 Free swatches (up to 6)</p>`;
+  document.getElementById('modalProductBody').innerHTML = body;
+  document.getElementById('productModal').classList.add('open');
 }
 
 function showProduct(idx) {
@@ -268,7 +349,8 @@ function showProduct(idx) {
   if (!p) return;
   document.getElementById('modalProductName').textContent = p.name;
   let body = `
-    <p style="font-size:22px;color:var(--gold);font-family:'DM Serif Display',serif;margin:0 0 12px">${escHtml(p.starting_price)}</p>
+    <p style="font-size:22px;color:var(--gold);font-family:'DM Serif Display',serif;margin:0 0 4px">${escHtml(p.starting_price)}</p>
+    ${isModular(p) ? `<p style="font-size:11.5px;color:var(--text-muted);margin:0 0 14px;font-style:italic">*Price shown is per single module — full configurations will vary</p>` : '<div style="margin-bottom:14px"></div>'}
     <p>${escHtml(p.description||'Handmade bespoke sofa. 100+ fabric options.')}</p>
     <div style="height:1px;background:var(--border);margin:16px 0"></div>`;
   if (p.key_features?.length) {
